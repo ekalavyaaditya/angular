@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-stat-card',
@@ -15,7 +15,8 @@ import { Component, Input } from '@angular/core';
       </div>
     </mat-card>
   `,
-  styleUrls: ['./stat-card.component.scss']
+  styleUrls: ['./stat-card.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StatCardComponent {
   @Input({ required: true }) label = '';

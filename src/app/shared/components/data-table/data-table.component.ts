@@ -1,7 +1,9 @@
-import { AfterViewInit, Component, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, inject, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 
 import { TableColumn } from '@core/models/dashboard.models';
 
@@ -9,7 +11,8 @@ import { TableColumn } from '@core/models/dashboard.models';
   selector: 'app-data-table',
   standalone: false,
   templateUrl: './data-table.component.html',
-  styleUrls: ['./data-table.component.scss']
+  styleUrls: ['./data-table.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DataTableComponent<T = unknown> implements AfterViewInit, OnChanges {
   @Input({ required: true }) title = '';
@@ -18,9 +21,25 @@ export class DataTableComponent<T = unknown> implements AfterViewInit, OnChanges
   @Input() data: T[] = [];
 
   readonly dataSource = new MatTableDataSource<T>([]);
+  private readonly searchSubject = new Subject<string>();
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly cdr = inject(ChangeDetectorRef);
 
   @ViewChild(MatPaginator) paginator?: MatPaginator;
   @ViewChild(MatSort) sort?: MatSort;
+
+  constructor() {
+    this.searchSubject
+      .pipe(
+        debounceTime(300),
+        distinctUntilChanged(),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe((value) => {
+        this.dataSource.filter = value;
+        this.cdr.markForCheck();
+      });
+  }
 
   get displayedColumns(): string[] {
     return this.columns.map((column) => String(column.key));
@@ -38,7 +57,11 @@ export class DataTableComponent<T = unknown> implements AfterViewInit, OnChanges
   }
 
   applyFilter(value: string): void {
-    this.dataSource.filter = value.trim().toLowerCase();
+    this.searchSubject.next(value.trim().toLowerCase());
+  }
+
+  trackByColumnKey(index: number, column: TableColumn<T>): string {
+    return String(column.key);
   }
 
   cellValue(row: T, column: TableColumn<T>): string | number {
