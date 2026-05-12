@@ -29,7 +29,7 @@
 
     <mat-sidenav-content>
       <mat-toolbar class="topbar">
-        <button mat-icon-button type="button" (click)="drawer.toggle()" matTooltip="Toggle navigation">
+        <button mat-icon-button type="button" (click)="drawer.toggle()" matTooltip="Toggle navigation" aria-label="Toggle navigation">
           <mat-icon>menu</mat-icon>
         </button>
         <div class="topbar-title">
@@ -37,10 +37,10 @@
           <span>{{ user.fullName }}</span>
         </div>
         <span class="spacer"></span>
-        <button mat-icon-button type="button" (click)="theme.toggle()" matTooltip="Toggle theme">
+        <button mat-icon-button type="button" (click)="theme.toggle()" matTooltip="Toggle theme" aria-label="Toggle dark/light theme">
           <mat-icon>{{ (theme$ | async) === 'dark' ? 'light_mode' : 'dark_mode' }}</mat-icon>
         </button>
-        <button mat-icon-button type="button" [matMenuTriggerFor]="profileMenu" matTooltip="Account">
+        <button mat-icon-button type="button" [matMenuTriggerFor]="profileMenu" matTooltip="Account" aria-label="Account menu">
           <mat-icon>account_circle</mat-icon>
         </button>
         <mat-menu #profileMenu="matMenu">
