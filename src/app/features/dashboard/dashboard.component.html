@@ -1,0 +1,74 @@
+<app-page-header
+  eyebrow="Overview"
+  title="Banking Operations Dashboard"
+  description="A role-aware command center connected to the Spring Boot banking API.">
+</app-page-header>
+
+<div class="page-grid">
+  <section class="responsive-grid">
+    <app-stat-card
+      *ngFor="let metric of metrics"
+      [label]="metric.label"
+      [value]="metric.value"
+      [icon]="metric.icon"
+      [trend]="metric.trend"
+      [tone]="metric.tone">
+    </app-stat-card>
+  </section>
+
+  <section class="section-grid">
+    <mat-card class="page-card analytics-card">
+      <div class="analytics-header">
+        <div>
+          <h2>Operational Mix</h2>
+          <p>Live API records populate as users create, lookup, and process banking operations.</p>
+        </div>
+      </div>
+      <div class="chart-bars">
+        <div *ngFor="let item of chartBars" [class]="item.className">
+          <span>{{ item.label }}</span>
+          <b></b>
+        </div>
+      </div>
+    </mat-card>
+
+    <mat-card class="page-card">
+      <h2>Your workspaces</h2>
+      <p class="muted">Menus and routes are filtered by the authenticated backend role.</p>
+      <div class="workspace-list">
+        <a *ngFor="let persona of personas" [routerLink]="persona.route">
+          <mat-icon>{{ persona.icon }}</mat-icon>
+          <span>{{ persona.label }}</span>
+          <mat-icon>chevron_right</mat-icon>
+        </a>
+      </div>
+    </mat-card>
+  </section>
+
+  <section class="section-grid">
+    <app-data-table
+      title="Recent accounts"
+      [columns]="[
+        { key: 'ownerName', label: 'Owner' },
+        { key: 'email', label: 'Email' },
+        { key: 'accountType', label: 'Type' },
+        { key: 'status', label: 'Status' },
+        { key: 'balance', label: 'Balance' }
+      ]"
+      [data]="(accounts$ | async) ?? []"
+      emptyText="Create or lookup an account to populate this table.">
+    </app-data-table>
+
+    <app-data-table
+      title="Recent transactions"
+      [columns]="[
+        { key: 'type', label: 'Type' },
+        { key: 'amount', label: 'Amount' },
+        { key: 'status', label: 'Status' },
+        { key: 'createdAt', label: 'Created' }
+      ]"
+      [data]="(transactions$ | async) ?? []"
+      emptyText="Create or lookup transactions to populate this table.">
+    </app-data-table>
+  </section>
+</div>

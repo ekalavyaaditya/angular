@@ -1,0 +1,237 @@
+<app-page-header
+  [eyebrow]="persona.label"
+  [title]="persona.label + ' Dashboard'"
+  [description]="persona.description">
+  <a mat-flat-button color="primary" routerLink="/dashboard">
+    <mat-icon>space_dashboard</mat-icon>
+    Overview
+  </a>
+</app-page-header>
+
+<div class="page-grid">
+  <app-role-dashboard [persona]="persona" [metrics]="metrics"></app-role-dashboard>
+
+  <mat-tab-group animationDuration="200ms">
+    <mat-tab label="Accounts">
+      <section class="tab-grid">
+        <mat-card class="page-card">
+          <h2>Create account</h2>
+          <form [formGroup]="createAccountForm" (ngSubmit)="createAccount()" class="form-grid">
+            <mat-form-field appearance="outline">
+              <mat-label>Owner name</mat-label>
+              <input matInput formControlName="ownerName">
+              <mat-error>Owner name is required.</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Email</mat-label>
+              <input matInput type="email" formControlName="email">
+              <mat-error>Valid email is required.</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Account type</mat-label>
+              <mat-select formControlName="accountType">
+                <mat-option *ngFor="let type of accountTypes" [value]="type">{{ type }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <button mat-flat-button color="primary" type="submit">
+              <mat-icon>add_business</mat-icon>
+              Create account
+            </button>
+          </form>
+        </mat-card>
+
+        <mat-card class="page-card">
+          <h2>Account operations</h2>
+          <form [formGroup]="accountLookupForm" class="form-grid">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Account ID</mat-label>
+              <input matInput formControlName="accountId">
+              <mat-error>Account ID is required.</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Credit amount</mat-label>
+              <input matInput type="number" min="0.01" formControlName="amount">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Status</mat-label>
+              <mat-select formControlName="status">
+                <mat-option *ngFor="let status of accountStatuses" [value]="status">{{ status }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <div class="button-row full-width">
+              <button mat-stroked-button type="button" (click)="lookupAccount()">
+                <mat-icon>search</mat-icon>
+                Lookup
+              </button>
+              <button mat-stroked-button type="button" (click)="creditAccount()">
+                <mat-icon>add_card</mat-icon>
+                Credit
+              </button>
+              <button mat-stroked-button type="button" (click)="updateAccountStatus()">
+                <mat-icon>published_with_changes</mat-icon>
+                Update status
+              </button>
+              <button mat-stroked-button type="button" (click)="loadTransactionsForAccount()">
+                <mat-icon>receipt_long</mat-icon>
+                Transactions
+              </button>
+            </div>
+          </form>
+
+          <div class="record-card" *ngIf="selectedAccount">
+            <span class="status-pill" [class.success]="selectedAccount.status === 'ACTIVE'">{{ selectedAccount.status }}</span>
+            <h3>{{ selectedAccount.ownerName }}</h3>
+            <p>{{ selectedAccount.email }}</p>
+            <strong>{{ selectedAccount.balance | currency }}</strong>
+          </div>
+        </mat-card>
+      </section>
+    </mat-tab>
+
+    <mat-tab label="Transactions">
+      <section class="tab-grid">
+        <mat-card class="page-card">
+          <h2>Create transaction</h2>
+          <form [formGroup]="transactionForm" (ngSubmit)="createTransaction()" class="form-grid">
+            <mat-form-field appearance="outline">
+              <mat-label>Type</mat-label>
+              <mat-select formControlName="type">
+                <mat-option *ngFor="let type of transactionTypes" [value]="type">{{ type }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Amount</mat-label>
+              <input matInput type="number" min="0.01" formControlName="amount">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>From account</mat-label>
+              <input matInput formControlName="fromAccountId">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>To account</mat-label>
+              <input matInput formControlName="toAccountId">
+              <mat-error>To account is required for deposits and transfers.</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Description</mat-label>
+              <textarea matInput formControlName="description" rows="3"></textarea>
+            </mat-form-field>
+
+            <button mat-flat-button color="primary" type="submit">
+              <mat-icon>send</mat-icon>
+              Process transaction
+            </button>
+          </form>
+        </mat-card>
+
+        <mat-card class="page-card">
+          <h2>Transaction operations</h2>
+          <form [formGroup]="transactionLookupForm" class="form-grid">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Transaction ID</mat-label>
+              <input matInput formControlName="transactionId">
+            </mat-form-field>
+
+            <div class="button-row full-width">
+              <button mat-stroked-button type="button" (click)="lookupTransaction()">
+                <mat-icon>search</mat-icon>
+                Lookup
+              </button>
+              <button mat-stroked-button color="warn" type="button" (click)="reverseTransaction()">
+                <mat-icon>undo</mat-icon>
+                Reverse
+              </button>
+            </div>
+          </form>
+
+          <div class="record-card" *ngIf="selectedTransaction">
+            <span class="status-pill" [class.success]="selectedTransaction.status === 'COMPLETED'" [class.danger]="selectedTransaction.status === 'REVERSED'">
+              {{ selectedTransaction.status }}
+            </span>
+            <h3>{{ selectedTransaction.type }}</h3>
+            <p>{{ selectedTransaction.description || selectedTransaction.id }}</p>
+            <strong>{{ selectedTransaction.amount | currency }}</strong>
+          </div>
+        </mat-card>
+      </section>
+    </mat-tab>
+
+    <mat-tab label="Fraud & Risk">
+      <section class="tab-grid">
+        <mat-card class="page-card">
+          <h2>Fraud case controls</h2>
+          <div class="button-row">
+            <button mat-stroked-button type="button" (click)="loadFraudCases()">All</button>
+            <button mat-stroked-button type="button" *ngFor="let status of fraudStatuses" (click)="loadFraudCases(status)">
+              {{ status }}
+            </button>
+          </div>
+
+          <form [formGroup]="fraudForm" class="form-grid">
+            <mat-form-field appearance="outline">
+              <mat-label>New status</mat-label>
+              <mat-select formControlName="status">
+                <mat-option *ngFor="let status of fraudStatuses" [value]="status">{{ status }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Notes</mat-label>
+              <input matInput formControlName="notes">
+            </mat-form-field>
+          </form>
+        </mat-card>
+
+        <mat-card class="page-card risk-list">
+          <h2>Risk queue</h2>
+          <app-skeleton-list *ngIf="!fraudCases"></app-skeleton-list>
+          <div class="risk-item" *ngFor="let item of fraudCases">
+            <div>
+              <span class="status-pill" [class.warning]="item.status === 'OPEN'" [class.danger]="item.status === 'CONFIRMED_FRAUD'">{{ item.status }}</span>
+              <h3>{{ item.alertType }} - {{ item.riskScore }}</h3>
+              <p>{{ item.triggeredRules.join(', ') || item.transactionId }}</p>
+            </div>
+            <button mat-stroked-button type="button" (click)="updateFraudCase(item.id)">Apply</button>
+          </div>
+        </mat-card>
+      </section>
+    </mat-tab>
+
+    <mat-tab label="Records">
+      <section class="section-grid table-section">
+        <app-data-table
+          title="Cached account records"
+          [columns]="[
+            { key: 'ownerName', label: 'Owner' },
+            { key: 'email', label: 'Email' },
+            { key: 'accountType', label: 'Type' },
+            { key: 'status', label: 'Status' },
+            { key: 'balance', label: 'Balance' }
+          ]"
+          [data]="(recentAccounts$ | async) ?? []">
+        </app-data-table>
+
+        <app-data-table
+          title="Cached transaction records"
+          [columns]="[
+            { key: 'type', label: 'Type' },
+            { key: 'amount', label: 'Amount' },
+            { key: 'status', label: 'Status' },
+            { key: 'createdAt', label: 'Created' }
+          ]"
+          [data]="(recentTransactions$ | async) ?? []">
+        </app-data-table>
+      </section>
+    </mat-tab>
+  </mat-tab-group>
+</div>

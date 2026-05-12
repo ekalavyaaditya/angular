@@ -1,0 +1,110 @@
+.auth-page {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(360px, 0.95fr);
+  background: var(--app-bg);
+}
+
+.auth-art {
+  display: flex;
+  align-items: end;
+  min-height: 100vh;
+  padding: 56px;
+  color: var(--app-on-primary);
+  background:
+    linear-gradient(
+      160deg,
+      color-mix(in srgb, var(--app-hero-overlay-a) 88%, transparent),
+      color-mix(in srgb, var(--app-hero-overlay-b) 78%, transparent)
+    ),
+    url('https://images.unsplash.com/photo-1563986768494-4dee2763ff3f?auto=format&fit=crop&w=1600&q=80') center/cover;
+}
+
+.auth-art div {
+  max-width: 680px;
+}
+
+.auth-art span {
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.auth-art h1 {
+  margin: 14px 0;
+  font-size: clamp(38px, 6vw, 74px);
+  line-height: 0.98;
+}
+
+.auth-art p {
+  margin: 0;
+  max-width: 560px;
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+.auth-form-wrap {
+  display: grid;
+  place-items: center;
+  padding: 32px;
+}
+
+.auth-card {
+  width: min(100%, 520px);
+  padding: 12px;
+  background: var(--app-surface);
+  color: var(--app-text);
+}
+
+.auth-card mat-card-title {
+  color: var(--app-text);
+}
+
+.auth-card mat-card-subtitle {
+  color: var(--app-muted);
+}
+
+.auth-form {
+  display: grid;
+  gap: 16px;
+  margin-top: 18px;
+}
+
+.auth-form mat-form-field {
+  --mat-form-field-container-height: 56px;
+  --mat-form-field-container-vertical-padding: 16px;
+}
+
+.auth-form input,
+.auth-form .mat-mdc-select-value {
+  color: var(--app-text);
+}
+
+.auth-form mat-icon[matPrefix] {
+  margin-right: 10px;
+}
+
+.auth-form button[type='submit'] {
+  height: 48px;
+}
+
+mat-card-actions {
+  padding: 0 16px 16px;
+}
+
+@media (max-width: 900px) {
+  .auth-page {
+    grid-template-columns: 1fr;
+  }
+
+  .auth-art {
+    min-height: 38vh;
+    padding: 36px 24px;
+  }
+}
+
+@media (max-width: 520px) {
+  .auth-form-wrap {
+    padding: 16px;
+  }
+}

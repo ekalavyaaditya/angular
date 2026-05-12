@@ -1,0 +1,37 @@
+.role-panel {
+  display: grid;
+  gap: 16px;
+}
+
+.role-summary {
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr);
+  gap: 14px;
+  align-items: center;
+}
+
+.role-icon {
+  width: 56px;
+  height: 56px;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  color: var(--app-on-primary);
+  background: linear-gradient(135deg, var(--app-primary), var(--app-accent));
+}
+
+.role-icon mat-icon {
+  width: 30px;
+  height: 30px;
+  font-size: 30px;
+}
+
+h2 {
+  margin: 0;
+  font-size: 22px;
+}
+
+p {
+  margin: 6px 0 0;
+  color: var(--app-muted);
+}

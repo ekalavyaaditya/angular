@@ -1,0 +1,390 @@
+@use '@angular/material' as mat;
+@use './light-theme';
+@use './dark-theme';
+
+html {
+  @include mat.theme((
+    color: (
+      primary: mat.$azure-palette,
+      tertiary: mat.$green-palette
+    ),
+    typography: Inter,
+    density: 0
+  ));
+
+  color-scheme: light dark;
+  scrollbar-color: var(--app-border) var(--app-bg);
+}
+
+:root {
+  --app-radius: 8px;
+  --mat-sys-background: var(--app-bg);
+  --mat-sys-surface: var(--app-surface);
+  --mat-sys-surface-container: var(--app-surface);
+  --mat-sys-surface-container-low: var(--app-card);
+  --mat-sys-surface-container-high: var(--app-surface-soft);
+  --mat-sys-surface-container-highest: var(--app-surface-soft);
+  --mat-sys-on-surface: var(--app-text);
+  --mat-sys-on-surface-variant: var(--app-muted);
+  --mat-sys-outline: var(--app-border);
+  --mat-sys-outline-variant: var(--app-border);
+  --mat-sys-primary: var(--app-primary);
+  --mat-sys-on-primary: var(--app-on-primary);
+  --mat-sys-tertiary: var(--app-accent);
+  --mat-sys-error: var(--app-danger);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background: var(--app-bg);
+  color: var(--app-text);
+  font-family: Inter, Arial, sans-serif;
+  transition:
+    background-color 180ms ease,
+    color 180ms ease,
+    border-color 180ms ease;
+}
+
+body,
+.mat-mdc-card,
+.mat-mdc-table,
+.mat-mdc-paginator,
+.mat-mdc-tab-group,
+.mat-mdc-menu-panel,
+.mat-mdc-dialog-container,
+.mat-mdc-form-field,
+.mat-drawer,
+.mat-toolbar,
+.page-card,
+.status-pill {
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+a {
+  color: inherit;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--app-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  border: 2px solid var(--app-bg);
+  border-radius: 999px;
+  background: var(--app-border);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--app-muted);
+}
+
+.mat-mdc-card {
+  --mdc-elevated-card-container-color: var(--app-card);
+  --mdc-outlined-card-container-color: var(--app-card);
+  --mdc-outlined-card-outline-color: var(--app-border);
+  --mat-card-title-text-color: var(--app-text);
+  --mat-card-subtitle-text-color: var(--app-muted);
+
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius) !important;
+  background: var(--app-card);
+  color: var(--app-text);
+  box-shadow: var(--app-shadow) !important;
+}
+
+.mat-mdc-table {
+  --mat-table-background-color: var(--app-card);
+  --mat-table-header-headline-color: var(--app-text);
+  --mat-table-row-item-label-text-color: var(--app-text);
+  --mat-table-row-item-outline-color: var(--app-border);
+
+  background: var(--app-card);
+  color: var(--app-text);
+}
+
+.mat-mdc-header-row {
+  background: var(--app-surface-soft);
+  color: var(--app-text);
+}
+
+.mat-mdc-row {
+  background: var(--app-card);
+}
+
+.mat-mdc-row:hover {
+  background: var(--app-hover);
+}
+
+.mat-mdc-cell,
+.mat-mdc-header-cell,
+.mat-sort-header-arrow {
+  color: var(--app-text);
+  border-color: var(--app-border);
+}
+
+.mat-mdc-paginator {
+  --mat-paginator-container-background-color: var(--app-card);
+  --mat-paginator-container-text-color: var(--app-text);
+  --mat-paginator-enabled-icon-color: var(--app-muted);
+  --mat-paginator-disabled-icon-color: color-mix(in srgb, var(--app-muted) 45%, transparent);
+
+  background: var(--app-card);
+  color: var(--app-text);
+}
+
+.mat-mdc-tab-group,
+.mat-mdc-tab-nav-bar {
+  --mat-tab-header-active-label-text-color: var(--app-primary);
+  --mat-tab-header-active-ripple-color: var(--app-primary);
+  --mat-tab-header-inactive-label-text-color: var(--app-muted);
+  --mat-tab-header-inactive-hover-label-text-color: var(--app-text);
+  --mat-tab-header-active-focus-label-text-color: var(--app-primary);
+  --mat-tab-header-active-hover-label-text-color: var(--app-primary);
+  --mdc-tab-indicator-active-indicator-color: var(--app-primary);
+
+  color: var(--app-text);
+}
+
+.mat-mdc-form-field {
+  width: 100%;
+  --mdc-outlined-text-field-container-color: var(--app-surface);
+  --mdc-outlined-text-field-input-text-color: var(--app-text);
+  --mdc-outlined-text-field-label-text-color: var(--app-muted);
+  --mdc-outlined-text-field-outline-color: var(--app-border);
+  --mdc-outlined-text-field-hover-outline-color: var(--app-muted);
+  --mdc-outlined-text-field-focus-outline-color: var(--app-primary);
+  --mdc-outlined-text-field-caret-color: var(--app-primary);
+  --mat-form-field-leading-icon-color: var(--app-muted);
+  --mat-form-field-trailing-icon-color: var(--app-muted);
+  --mat-select-enabled-trigger-text-color: var(--app-text);
+  --mat-select-enabled-arrow-color: var(--app-muted);
+  --mat-select-focused-arrow-color: var(--app-primary);
+}
+
+.mat-mdc-text-field-wrapper,
+.mat-mdc-form-field-focus-overlay {
+  background: var(--app-surface);
+}
+
+.mat-mdc-input-element,
+.mat-mdc-select-value,
+.mat-mdc-select-placeholder {
+  color: var(--app-text);
+}
+
+.mat-mdc-select-panel,
+.mat-mdc-menu-panel,
+.mat-mdc-autocomplete-panel {
+  --mat-select-panel-background-color: var(--app-surface);
+  --mat-menu-container-color: var(--app-surface);
+  --mat-menu-item-label-text-color: var(--app-text);
+  --mat-option-label-text-color: var(--app-text);
+  --mat-option-selected-state-label-text-color: var(--app-primary);
+  --mat-option-hover-state-layer-color: var(--app-hover);
+  --mat-option-focus-state-layer-color: var(--app-focus);
+  --mat-option-selected-state-layer-color: var(--app-focus);
+
+  border: 1px solid var(--app-border);
+  background: var(--app-surface);
+  color: var(--app-text);
+}
+
+.mat-mdc-option,
+.mat-mdc-menu-item,
+.mat-mdc-menu-item .mat-icon {
+  color: var(--app-text);
+}
+
+.mat-mdc-button,
+.mat-mdc-outlined-button,
+.mat-mdc-unelevated-button,
+.mat-mdc-raised-button {
+  --mdc-text-button-label-text-color: var(--app-primary);
+  --mdc-outlined-button-label-text-color: var(--app-primary);
+  --mdc-outlined-button-outline-color: var(--app-border);
+  --mdc-filled-button-container-color: var(--app-primary);
+  --mdc-filled-button-label-text-color: var(--app-on-primary);
+  --mat-text-button-state-layer-color: var(--app-primary);
+  --mat-outlined-button-state-layer-color: var(--app-primary);
+  --mat-filled-button-state-layer-color: var(--app-on-primary);
+}
+
+.mat-mdc-button[color='warn'],
+.mat-mdc-outlined-button[color='warn'],
+.mat-mdc-unelevated-button[color='warn'],
+.mat-mdc-raised-button[color='warn'],
+.mat-mdc-button.mat-warn,
+.mat-mdc-outlined-button.mat-warn,
+.mat-mdc-unelevated-button.mat-warn,
+.mat-mdc-raised-button.mat-warn {
+  --mdc-text-button-label-text-color: var(--app-danger);
+  --mdc-outlined-button-label-text-color: var(--app-danger);
+  --mdc-filled-button-container-color: var(--app-danger);
+  --mdc-filled-button-label-text-color: var(--app-on-primary);
+  --mat-text-button-state-layer-color: var(--app-danger);
+  --mat-outlined-button-state-layer-color: var(--app-danger);
+}
+
+.mat-mdc-icon-button {
+  --mdc-icon-button-icon-color: var(--app-muted);
+  --mat-icon-button-state-layer-color: var(--app-primary);
+}
+
+.mat-mdc-icon-button:hover {
+  --mdc-icon-button-icon-color: var(--app-text);
+}
+
+.mat-mdc-dialog-container {
+  --mdc-dialog-container-color: var(--app-surface);
+  --mdc-dialog-supporting-text-color: var(--app-text);
+  --mdc-dialog-subhead-color: var(--app-text);
+}
+
+.mat-mdc-snack-bar-container {
+  --mdc-snackbar-container-color: var(--app-surface);
+  --mdc-snackbar-supporting-text-color: var(--app-text);
+  --mat-snack-bar-button-color: var(--app-primary);
+
+  border: 1px solid var(--app-border);
+}
+
+.mat-mdc-snack-bar-container.success {
+  --mat-snack-bar-button-color: var(--app-positive);
+}
+
+.mat-mdc-snack-bar-container.error {
+  --mat-snack-bar-button-color: var(--app-danger);
+}
+
+.mat-mdc-snack-bar-container.info {
+  --mat-snack-bar-button-color: var(--app-primary);
+}
+
+.mat-drawer-container,
+.mat-drawer-content,
+.mat-drawer {
+  background: var(--app-bg);
+  color: var(--app-text);
+}
+
+.mat-toolbar {
+  --mat-toolbar-container-background-color: var(--app-surface);
+  --mat-toolbar-container-text-color: var(--app-text);
+
+  background: var(--app-surface);
+  color: var(--app-text);
+}
+
+mat-icon {
+  color: inherit;
+}
+
+.page-grid {
+  display: grid;
+  gap: 20px;
+}
+
+.responsive-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 16px;
+}
+
+.section-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
+  gap: 20px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.full-width {
+  grid-column: 1 / -1;
+}
+
+.table-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 3px 9px;
+  border: 1px solid var(--app-border);
+  border-radius: 999px;
+  background: var(--app-surface-soft);
+  color: var(--app-text);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.status-pill.success {
+  color: var(--app-positive);
+}
+
+.status-pill.warning {
+  color: var(--app-warning);
+}
+
+.status-pill.danger {
+  color: var(--app-danger);
+}
+
+.page-card {
+  padding: 20px;
+}
+
+.loading-shade {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: grid;
+  place-items: start center;
+  pointer-events: none;
+  padding-top: 72px;
+}
+
+@media (max-width: 960px) {
+  .section-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .page-card {
+    padding: 16px;
+  }
+}

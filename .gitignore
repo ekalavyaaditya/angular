@@ -1,0 +1,6 @@
+/.angular/
+/dist/
+/node_modules/
+/angular-serve.log
+/angular-serve.err.log
+npm-debug.log*

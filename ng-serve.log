@@ -1,0 +1,4 @@
+
+> banking-angular-frontend@1.0.0 start
+> ng serve --proxy-config proxy.conf.json --host 127.0.0.1 --port 4200
+

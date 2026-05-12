@@ -1,0 +1,28 @@
+:root,
+body.light-theme {
+  color-scheme: light;
+
+  --app-bg: #f6f8fb;
+  --app-surface: #ffffff;
+  --app-surface-soft: #eef3f8;
+  --app-card: #ffffff;
+  --app-border: #dce4ee;
+  --app-text: #102033;
+  --app-muted: #617084;
+  --app-primary: #006d77;
+  --app-accent: #5964d8;
+  --app-warning: #b7791f;
+  --app-danger: #c0362c;
+  --app-positive: #14804a;
+  --app-on-primary: #ffffff;
+  --app-on-accent: #ffffff;
+  --app-shadow: 0 10px 30px rgb(15 23 42 / 6%);
+  --app-hover: color-mix(in srgb, var(--app-text) 6%, transparent);
+  --app-focus: color-mix(in srgb, var(--app-primary) 18%, transparent);
+  --app-hero-overlay-a: #003540;
+  --app-hero-overlay-b: #1c2a5d;
+  --app-chart-a: var(--app-primary);
+  --app-chart-b: var(--app-accent);
+  --app-chart-c: #c2410c;
+  --app-chart-grid: #dce4ee;
+}

@@ -1,0 +1,91 @@
+h2 {
+  margin: 0 0 8px;
+  font-size: 20px;
+}
+
+.muted,
+p {
+  color: var(--app-muted);
+}
+
+.analytics-card {
+  min-height: 320px;
+}
+
+.analytics-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.chart-bars {
+  display: grid;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.chart-bars div {
+  display: grid;
+  grid-template-columns: 100px minmax(0, 1fr);
+  gap: 14px;
+  align-items: center;
+}
+
+.chart-bars span {
+  color: var(--app-muted);
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.chart-bars b {
+  display: block;
+  width: 50%;
+  height: 22px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--app-chart-a), var(--app-chart-b));
+}
+
+.chart-bars .accounts b {
+  width: 74%;
+}
+
+.chart-bars .transfers b {
+  width: 52%;
+}
+
+.chart-bars .fraud b {
+  width: 34%;
+  background: linear-gradient(90deg, var(--app-warning), var(--app-chart-c));
+}
+
+.chart-bars .payments b {
+  width: 63%;
+}
+
+.workspace-list {
+  display: grid;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.workspace-list a {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr) 24px;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid var(--app-border);
+  border-radius: 8px;
+  text-decoration: none;
+  background: var(--app-surface);
+  color: var(--app-text);
+}
+
+.workspace-list a:hover {
+  background: var(--app-hover);
+  border-color: var(--app-muted);
+}
+
+.workspace-list mat-icon:first-child {
+  color: var(--app-primary);
+}

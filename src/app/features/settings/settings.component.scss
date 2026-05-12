@@ -1,0 +1,24 @@
+h2 {
+  margin: 0 0 16px;
+}
+
+.setting-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--app-border);
+}
+
+.setting-row:last-child {
+  border-bottom: 0;
+}
+
+.setting-row span {
+  color: var(--app-muted);
+}
+
+.setting-row strong {
+  text-align: right;
+  overflow-wrap: anywhere;
+}

@@ -1,0 +1,30 @@
+<app-page-header
+  eyebrow="Console"
+  title="Settings"
+  description="Environment and interface settings for the Angular banking frontend.">
+</app-page-header>
+
+<section class="section-grid">
+  <mat-card class="page-card">
+    <h2>Appearance</h2>
+    <mat-slide-toggle [checked]="(theme$ | async) === 'dark'" (change)="theme.toggle()">
+      Dark theme
+    </mat-slide-toggle>
+  </mat-card>
+
+  <mat-card class="page-card">
+    <h2>Backend integration</h2>
+    <div class="setting-row">
+      <span>API base URL</span>
+      <strong>http://localhost:8084/api</strong>
+    </div>
+    <div class="setting-row">
+      <span>Proxy target</span>
+      <strong>http://localhost:8084</strong>
+    </div>
+    <div class="setting-row">
+      <span>Authentication</span>
+      <strong>JWT Bearer interceptor</strong>
+    </div>
+  </mat-card>
+</section>

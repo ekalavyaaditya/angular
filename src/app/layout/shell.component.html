@@ -1,0 +1,67 @@
+<ng-container *ngIf="user$ | async as user">
+  <mat-sidenav-container class="shell">
+    <mat-sidenav
+      #drawer
+      class="sidenav"
+      [mode]="(isHandset$ | async) ? 'over' : 'side'"
+      [opened]="(isHandset$ | async) === false">
+      <div class="brand">
+        <div class="brand-mark">B</div>
+        <div>
+          <strong>BankOps</strong>
+          <span>{{ user.role }}</span>
+        </div>
+      </div>
+
+      <mat-nav-list>
+        <a
+          mat-list-item
+          *ngFor="let item of navigation.navItems(user.role)"
+          [routerLink]="item.route"
+          routerLinkActive="active-link"
+          [routerLinkActiveOptions]="{ exact: item.route === '/dashboard' }"
+          (click)="closeDrawerOnMobile(drawer)">
+          <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+          <span matListItemTitle>{{ item.label }}</span>
+        </a>
+      </mat-nav-list>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+      <mat-toolbar class="topbar">
+        <button mat-icon-button type="button" (click)="drawer.toggle()" matTooltip="Toggle navigation">
+          <mat-icon>menu</mat-icon>
+        </button>
+        <div class="topbar-title">
+          <strong>Unified Banking Console</strong>
+          <span>{{ user.fullName }}</span>
+        </div>
+        <span class="spacer"></span>
+        <button mat-icon-button type="button" (click)="theme.toggle()" matTooltip="Toggle theme">
+          <mat-icon>{{ (theme$ | async) === 'dark' ? 'light_mode' : 'dark_mode' }}</mat-icon>
+        </button>
+        <button mat-icon-button type="button" [matMenuTriggerFor]="profileMenu" matTooltip="Account">
+          <mat-icon>account_circle</mat-icon>
+        </button>
+        <mat-menu #profileMenu="matMenu">
+          <a mat-menu-item routerLink="/profile">
+            <mat-icon>person</mat-icon>
+            <span>Profile</span>
+          </a>
+          <a mat-menu-item routerLink="/settings">
+            <mat-icon>settings</mat-icon>
+            <span>Settings</span>
+          </a>
+          <button mat-menu-item type="button" (click)="auth.logout()">
+            <mat-icon>logout</mat-icon>
+            <span>Sign out</span>
+          </button>
+        </mat-menu>
+      </mat-toolbar>
+
+      <main class="content">
+        <router-outlet></router-outlet>
+      </main>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</ng-container>

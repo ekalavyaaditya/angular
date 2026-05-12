@@ -1,0 +1,90 @@
+mat-tab-group {
+  background: var(--app-surface);
+  border: 1px solid var(--app-border);
+  border-radius: 8px;
+  color: var(--app-text);
+  overflow: hidden;
+}
+
+.tab-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(340px, 0.9fr);
+  gap: 20px;
+  padding: 20px;
+}
+
+h2 {
+  margin: 0 0 16px;
+  font-size: 20px;
+}
+
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.record-card {
+  margin-top: 18px;
+  padding: 16px;
+  border: 1px solid var(--app-border);
+  border-radius: 8px;
+  background: var(--app-surface-soft);
+}
+
+.record-card h3,
+.risk-item h3 {
+  margin: 10px 0 4px;
+  font-size: 18px;
+}
+
+.record-card p,
+.risk-item p {
+  margin: 0 0 12px;
+  color: var(--app-muted);
+  overflow-wrap: anywhere;
+}
+
+.record-card strong {
+  font-size: 26px;
+}
+
+.risk-list {
+  display: grid;
+  align-content: start;
+  gap: 12px;
+}
+
+.risk-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  padding: 14px;
+  border: 1px solid var(--app-border);
+  border-radius: 8px;
+  background: var(--app-card);
+}
+
+.risk-item:hover {
+  background: var(--app-hover);
+}
+
+.table-section {
+  padding: 20px;
+}
+
+@media (max-width: 960px) {
+  .tab-grid,
+  .table-section {
+    grid-template-columns: 1fr;
+    padding: 14px;
+  }
+}
+
+@media (max-width: 560px) {
+  .risk-item {
+    grid-template-columns: 1fr;
+  }
+}

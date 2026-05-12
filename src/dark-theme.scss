@@ -1,0 +1,27 @@
+body.dark-theme {
+  color-scheme: dark;
+
+  --app-bg: #101418;
+  --app-surface: #171d23;
+  --app-surface-soft: #202832;
+  --app-card: #171d23;
+  --app-border: #344252;
+  --app-text: #eef4f9;
+  --app-muted: #aebccc;
+  --app-primary: #5ac8b5;
+  --app-accent: #a8afff;
+  --app-warning: #e3b341;
+  --app-danger: #f07167;
+  --app-positive: #58c48a;
+  --app-on-primary: #08231f;
+  --app-on-accent: #12153d;
+  --app-shadow: 0 12px 34px rgb(0 0 0 / 28%);
+  --app-hover: color-mix(in srgb, var(--app-text) 10%, transparent);
+  --app-focus: color-mix(in srgb, var(--app-primary) 22%, transparent);
+  --app-hero-overlay-a: #062621;
+  --app-hero-overlay-b: #15183d;
+  --app-chart-a: var(--app-primary);
+  --app-chart-b: var(--app-accent);
+  --app-chart-c: #f6b453;
+  --app-chart-grid: #344252;
+}
