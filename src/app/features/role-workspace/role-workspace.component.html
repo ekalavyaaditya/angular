@@ -32,7 +32,7 @@
             <mat-form-field appearance="outline">
               <mat-label>Account type</mat-label>
               <mat-select formControlName="accountType">
-                <mat-option *ngFor="let type of accountTypes" [value]="type">{{ type }}</mat-option>
+                <mat-option *ngFor="let type of accountTypes; trackBy: trackByValue" [value]="type">{{ type }}</mat-option>
               </mat-select>
             </mat-form-field>
 
@@ -60,7 +60,7 @@
             <mat-form-field appearance="outline">
               <mat-label>Status</mat-label>
               <mat-select formControlName="status">
-                <mat-option *ngFor="let status of accountStatuses" [value]="status">{{ status }}</mat-option>
+                <mat-option *ngFor="let status of accountStatuses; trackBy: trackByValue" [value]="status">{{ status }}</mat-option>
               </mat-select>
             </mat-form-field>
 
@@ -102,7 +102,7 @@
             <mat-form-field appearance="outline">
               <mat-label>Type</mat-label>
               <mat-select formControlName="type">
-                <mat-option *ngFor="let type of transactionTypes" [value]="type">{{ type }}</mat-option>
+                <mat-option *ngFor="let type of transactionTypes; trackBy: trackByValue" [value]="type">{{ type }}</mat-option>
               </mat-select>
             </mat-form-field>
 
@@ -172,7 +172,7 @@
           <h2>Fraud case controls</h2>
           <div class="button-row">
             <button mat-stroked-button type="button" (click)="loadFraudCases()">All</button>
-            <button mat-stroked-button type="button" *ngFor="let status of fraudStatuses" (click)="loadFraudCases(status)">
+            <button mat-stroked-button type="button" *ngFor="let status of fraudStatuses; trackBy: trackByValue" (click)="loadFraudCases(status)">
               {{ status }}
             </button>
           </div>
@@ -181,7 +181,7 @@
             <mat-form-field appearance="outline">
               <mat-label>New status</mat-label>
               <mat-select formControlName="status">
-                <mat-option *ngFor="let status of fraudStatuses" [value]="status">{{ status }}</mat-option>
+                <mat-option *ngFor="let status of fraudStatuses; trackBy: trackByValue" [value]="status">{{ status }}</mat-option>
               </mat-select>
             </mat-form-field>
 
@@ -195,7 +195,7 @@
         <mat-card class="page-card risk-list">
           <h2>Risk queue</h2>
           <app-skeleton-list *ngIf="!fraudCases"></app-skeleton-list>
-          <div class="risk-item" *ngFor="let item of fraudCases">
+          <div class="risk-item" *ngFor="let item of fraudCases; trackBy: trackById">
             <div>
               <span class="status-pill" [class.warning]="item.status === 'OPEN'" [class.danger]="item.status === 'CONFIRMED_FRAUD'">{{ item.status }}</span>
               <h3>{{ item.alertType }} - {{ item.riskScore }}</h3>

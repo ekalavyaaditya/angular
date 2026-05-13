@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 import { DashboardMetric } from '@core/models/dashboard.models';
 import { PersonaConfig } from '@core/models/role.models';
@@ -7,7 +7,8 @@ import { PersonaConfig } from '@core/models/role.models';
   selector: 'app-role-dashboard',
   standalone: false,
   templateUrl: './role-dashboard.component.html',
-  styleUrls: ['./role-dashboard.component.scss']
+  styleUrls: ['./role-dashboard.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RoleDashboardComponent {
   @Input({ required: true }) persona!: PersonaConfig;
