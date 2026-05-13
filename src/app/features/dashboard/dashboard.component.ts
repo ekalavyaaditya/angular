@@ -37,6 +37,14 @@ export class DashboardComponent implements OnInit {
     { label: 'Open fraud cases', value: '0', icon: 'policy', trend: 'Live fraud API', tone: 'warning' }
   ];
 
+  trackByLabel(_index: number, item: { label: string }): string {
+    return item.label;
+  }
+
+  trackByRoute(_index: number, item: PersonaConfig): string {
+    return item.route;
+  }
+
   constructor(
     private readonly auth: AuthService,
     private readonly accounts: AccountService,

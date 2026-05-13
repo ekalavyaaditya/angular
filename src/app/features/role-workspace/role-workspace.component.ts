@@ -63,6 +63,14 @@ export class RoleWorkspaceComponent implements OnInit {
 
   metrics: DashboardMetric[] = [];
 
+  trackByValue(_index: number, item: string): string {
+    return item;
+  }
+
+  trackById(_index: number, item: any): string | number {
+    return item.id;
+  }
+
   constructor(
     private readonly fb: FormBuilder,
     private readonly route: ActivatedRoute,
