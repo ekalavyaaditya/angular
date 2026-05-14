@@ -77,4 +77,16 @@ export class DashboardComponent implements OnInit {
       }
     });
   }
+
+  trackByMetric(_index: number, metric: DashboardMetric): string {
+    return metric.label;
+  }
+
+  trackByChartBar(_index: number, bar: { label: string }): string {
+    return bar.label;
+  }
+
+  trackByPersona(_index: number, persona: PersonaConfig): string {
+    return persona.key;
+  }
 }
