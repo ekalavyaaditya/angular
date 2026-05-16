@@ -7,7 +7,7 @@
 <div class="page-grid">
   <section class="responsive-grid">
     <app-stat-card
-      *ngFor="let metric of metrics"
+      *ngFor="let metric of metrics; trackBy: trackByMetric"
       [label]="metric.label"
       [value]="metric.value"
       [icon]="metric.icon"
@@ -25,7 +25,7 @@
         </div>
       </div>
       <div class="chart-bars">
-        <div *ngFor="let item of chartBars" [class]="item.className">
+        <div *ngFor="let item of chartBars; trackBy: trackByChartBar" [class]="item.className">
           <span>{{ item.label }}</span>
           <b></b>
         </div>
@@ -36,7 +36,7 @@
       <h2>Your workspaces</h2>
       <p class="muted">Menus and routes are filtered by the authenticated backend role.</p>
       <div class="workspace-list">
-        <a *ngFor="let persona of personas" [routerLink]="persona.route">
+        <a *ngFor="let persona of personas; trackBy: trackByPersona" [routerLink]="persona.route">
           <mat-icon>{{ persona.icon }}</mat-icon>
           <span>{{ persona.label }}</span>
           <mat-icon>chevron_right</mat-icon>
