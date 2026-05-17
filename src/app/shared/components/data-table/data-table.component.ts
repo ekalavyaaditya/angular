@@ -41,6 +41,12 @@ export class DataTableComponent<T = unknown> implements AfterViewInit, OnChanges
     this.dataSource.filter = value.trim().toLowerCase();
   }
 
+  clearFilter(input: HTMLInputElement): void {
+    input.value = '';
+    this.applyFilter('');
+    input.focus();
+  }
+
   cellValue(row: T, column: TableColumn<T>): string | number {
     if (column.value) {
       return column.value(row);
