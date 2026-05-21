@@ -3,13 +3,33 @@
     <h2>{{ title }}</h2>
     <mat-form-field appearance="outline">
       <mat-label>Search</mat-label>
-      <mat-icon matPrefix>search</mat-icon>
-      <input matInput type="search" (input)="applyFilter($any($event.target).value)">
+      <mat-icon matPrefix aria-hidden="true">search</mat-icon>
+      <input
+        matInput
+        #searchInput
+        type="text"
+        (input)="applyFilter(searchInput.value)"
+        placeholder="Filter records...">
+      <button
+        *ngIf="filterValue"
+        mat-icon-button
+        matSuffix
+        (click)="clearSearch(searchInput)"
+        matTooltip="Clear search"
+        aria-label="Clear search">
+        <mat-icon aria-hidden="true">close</mat-icon>
+      </button>
     </mat-form-field>
   </div>
 
   <div class="table-wrap" *ngIf="dataSource.data.length; else emptyState">
-    <table mat-table matSort [dataSource]="dataSource">
+    <div class="no-results" *ngIf="dataSource.filteredData.length === 0 && filterValue">
+      <mat-icon aria-hidden="true">search_off</mat-icon>
+      <p>No results found for "{{ filterValue }}"</p>
+      <button mat-button (click)="clearSearch(searchInput)">Clear filter</button>
+    </div>
+
+    <table mat-table matSort [dataSource]="dataSource" [class.hidden]="dataSource.filteredData.length === 0">
       <ng-container *ngFor="let column of columns" [matColumnDef]="column.key">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ column.label }}</th>
         <td mat-cell *matCellDef="let row">{{ cellValue(row, column) }}</td>
@@ -22,7 +42,7 @@
 
   <ng-template #emptyState>
     <div class="empty-state">
-      <mat-icon>table_view</mat-icon>
+      <mat-icon aria-hidden="true">table_view</mat-icon>
       <p>{{ emptyText }}</p>
     </div>
   </ng-template>
