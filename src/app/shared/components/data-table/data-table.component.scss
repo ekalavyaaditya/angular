@@ -19,6 +19,13 @@ h2 {
   overflow-x: auto;
 }
 
+.no-data-row {
+  text-align: center;
+  height: 80px;
+  font-style: italic;
+  color: var(--app-muted);
+}
+
 table {
   width: 100%;
   min-width: 680px;
