@@ -41,6 +41,13 @@ table {
   font-size: 40px;
 }
 
+.mat-mdc-no-data-row td {
+  padding: 32px;
+  text-align: center;
+  color: var(--app-muted);
+  font-style: italic;
+}
+
 @media (max-width: 640px) {
   .table-toolbar {
     align-items: stretch;
