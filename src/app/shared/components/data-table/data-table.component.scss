@@ -11,6 +11,11 @@ h2 {
 
 .table-toolbar mat-form-field {
   width: min(320px, 100%);
+
+  button {
+    color: var(--app-muted);
+    &:hover { color: var(--app-text); }
+  }
 }
 
 .table-wrap {
@@ -22,6 +27,14 @@ h2 {
 table {
   width: 100%;
   min-width: 680px;
+}
+
+.no-results {
+  padding: 32px !important;
+  text-align: center;
+  color: var(--app-muted);
+  font-style: italic;
+  border-bottom: none !important;
 }
 
 .empty-state {
