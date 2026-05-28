@@ -1,6 +1,6 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatSidenav } from '@angular/material/sidenav';
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { map, shareReplay } from 'rxjs';
 
 import { AuthService } from '@core/services/auth.service';
@@ -11,11 +11,23 @@ import { ThemeService } from '@core/services/theme.service';
   selector: 'app-shell',
   standalone: false,
   templateUrl: './shell.component.html',
-  styleUrls: ['./shell.component.scss']
+  styleUrls: ['./shell.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ShellComponent {
   readonly user$ = this.auth.user$;
   readonly theme$ = this.theme.theme$;
+
+  /**
+   * Memoized navigation items based on the user role.
+   * Moving this from the template into an observable prevents redundant
+   * calls to navigation.navItems() during every change detection cycle.
+   */
+  readonly navItems$ = this.user$.pipe(
+    map((user) => (user ? this.navigation.navItems(user.role) : [])),
+    shareReplay(1)
+  );
+
   readonly isHandset$ = this.breakpointObserver.observe('(max-width: 900px)').pipe(
     map((result) => result.matches),
     shareReplay({ bufferSize: 1, refCount: true })
@@ -32,5 +44,12 @@ export class ShellComponent {
     if (this.breakpointObserver.isMatched('(max-width: 900px)')) {
       void drawer.close();
     }
+  }
+
+  /**
+   * Optimizes rendering of the navigation list by tracking items by their route.
+   */
+  trackByNavRoute(_index: number, item: any): string {
+    return item.route;
   }
 }
