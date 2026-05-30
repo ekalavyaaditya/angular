@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -9,21 +9,24 @@ import { TableColumn } from '@core/models/dashboard.models';
   selector: 'app-data-table',
   standalone: false,
   templateUrl: './data-table.component.html',
-  styleUrls: ['./data-table.component.scss']
+  styleUrls: ['./data-table.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DataTableComponent<T = unknown> implements AfterViewInit, OnChanges {
+export class DataTableComponent<T = unknown> implements AfterViewInit, OnChanges, OnInit {
   @Input({ required: true }) title = '';
   @Input() emptyText = 'No records found.';
   @Input() columns: TableColumn<T>[] = [];
   @Input() data: T[] = [];
 
   readonly dataSource = new MatTableDataSource<T>([]);
+  displayedColumns: string[] = [];
 
   @ViewChild(MatPaginator) paginator?: MatPaginator;
   @ViewChild(MatSort) sort?: MatSort;
 
-  get displayedColumns(): string[] {
-    return this.columns.map((column) => String(column.key));
+  ngOnInit(): void {
+    this.updateDataSource();
+    this.updateDisplayedColumns();
   }
 
   ngAfterViewInit(): void {
@@ -33,8 +36,20 @@ export class DataTableComponent<T = unknown> implements AfterViewInit, OnChanges
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['data']) {
-      this.dataSource.data = this.data;
+      this.updateDataSource();
     }
+
+    if (changes['columns']) {
+      this.updateDisplayedColumns();
+    }
+  }
+
+  private updateDataSource(): void {
+    this.dataSource.data = this.data;
+  }
+
+  private updateDisplayedColumns(): void {
+    this.displayedColumns = this.columns.map((column) => String(column.key));
   }
 
   applyFilter(value: string): void {
