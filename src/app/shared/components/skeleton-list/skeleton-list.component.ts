@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 
 @Component({
   selector: 'app-skeleton-list',
@@ -8,12 +8,24 @@ import { Component, Input } from '@angular/core';
       <div class="skeleton-row" *ngFor="let row of rowsArray"></div>
     </div>
   `,
-  styleUrls: ['./skeleton-list.component.scss']
+  styleUrls: ['./skeleton-list.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SkeletonListComponent {
+export class SkeletonListComponent implements OnChanges, OnInit {
   @Input() rows = 4;
+  rowsArray: number[] = [];
 
-  get rowsArray(): number[] {
-    return Array.from({ length: this.rows }, (_, index) => index);
+  ngOnInit(): void {
+    this.updateRowsArray();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['rows']) {
+      this.updateRowsArray();
+    }
+  }
+
+  private updateRowsArray(): void {
+    this.rowsArray = Array.from({ length: this.rows }, (_, index) => index);
   }
 }
