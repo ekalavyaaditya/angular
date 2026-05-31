@@ -3,8 +3,24 @@
     <h2>{{ title }}</h2>
     <mat-form-field appearance="outline">
       <mat-label>Search</mat-label>
-      <mat-icon matPrefix>search</mat-icon>
-      <input matInput type="search" (input)="applyFilter($any($event.target).value)">
+      <mat-icon matPrefix aria-hidden="true">search</mat-icon>
+      <input
+        matInput
+        #searchInput
+        type="text"
+        [(ngModel)]="filterValue"
+        (ngModelChange)="applyFilter($event)"
+        placeholder="Filter results...">
+      <button
+        *ngIf="filterValue"
+        mat-icon-button
+        matSuffix
+        type="button"
+        (click)="clearFilter(searchInput)"
+        matTooltip="Clear filter"
+        aria-label="Clear search filter">
+        <mat-icon>close</mat-icon>
+      </button>
     </mat-form-field>
   </div>
 
@@ -17,6 +33,12 @@
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+      <tr class="mat-row no-results" *matNoDataRow>
+        <td class="mat-cell" [attr.colspan]="displayedColumns.length">
+          No results found for "{{ filterValue }}"
+        </td>
+      </tr>
     </table>
   </div>
 
