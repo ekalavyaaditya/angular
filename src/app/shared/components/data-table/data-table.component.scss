@@ -41,6 +41,13 @@ table {
   font-size: 40px;
 }
 
+.no-results {
+  text-align: center;
+  font-style: italic;
+  padding: 24px;
+  color: var(--app-muted);
+}
+
 @media (max-width: 640px) {
   .table-toolbar {
     align-items: stretch;
