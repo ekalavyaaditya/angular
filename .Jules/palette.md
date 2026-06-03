@@ -1,3 +1,3 @@
-## 2025-05-15 - Improving accessibility for icon-only buttons
-**Learning:** Icon-only buttons (like theme toggles or menu triggers) are common in modern UI but are often inaccessible to screen reader users if they lack descriptive ARIA labels. Tooltips are not enough as they don't always map to the accessible name.
-**Action:** Always ensure `aria-label` or `aria-labelledby` is present on any button that does not contain visible text.
+## 2026-06-03 - [DataTable Search UX & Accessibility]
+**Learning:** Adding a "Clear" button to search filters significantly improves usability in data-heavy views, and using `matNoDataRow` provides essential feedback when filters are too restrictive. However, when hiding decorative elements with `aria-hidden="true"`, care must be taken not to accidentally hide informative data like "trends" or "stats" which are critical for screen reader users.
+**Action:** Always verify that elements hidden from ARIA are strictly decorative. Use custom clear buttons for search inputs to avoid cross-browser icon overlap issues.
