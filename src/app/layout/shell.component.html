@@ -6,7 +6,7 @@
       [mode]="(isHandset$ | async) ? 'over' : 'side'"
       [opened]="(isHandset$ | async) === false">
       <div class="brand">
-        <div class="brand-mark">B</div>
+        <div class="brand-mark" aria-hidden="true">B</div>
         <div>
           <strong>BankOps</strong>
           <span>{{ user.role }}</span>
