@@ -5,7 +5,7 @@ import { Component, Input } from '@angular/core';
   standalone: false,
   template: `
     <mat-card class="stat-card" [class]="tone">
-      <div class="icon-wrap">
+      <div class="icon-wrap" aria-hidden="true">
         <mat-icon>{{ icon }}</mat-icon>
       </div>
       <div>
