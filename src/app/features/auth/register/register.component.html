@@ -37,7 +37,8 @@
             <button mat-icon-button matSuffix type="button" (click)="hidePassword = !hidePassword" [matTooltip]="hidePassword ? 'Show password' : 'Hide password'" [attr.aria-label]="hidePassword ? 'Show password' : 'Hide password'">
               <mat-icon>{{ hidePassword ? 'visibility' : 'visibility_off' }}</mat-icon>
             </button>
-            <mat-error>Use 8 to 72 characters.</mat-error>
+            <mat-error *ngIf="form.controls.password.hasError('required')">Password is required.</mat-error>
+            <mat-error *ngIf="form.controls.password.hasError('minlength') || form.controls.password.hasError('maxlength')">Use 8 to 72 characters.</mat-error>
           </mat-form-field>
 
           <mat-form-field appearance="outline">
@@ -51,8 +52,9 @@
             <mat-error>User type is required.</mat-error>
           </mat-form-field>
 
-          <button mat-flat-button color="primary" type="submit">
-            <mat-icon>person_add</mat-icon>
+          <button mat-flat-button color="primary" type="submit" [disabled]="isLoading">
+            <mat-icon *ngIf="!isLoading">person_add</mat-icon>
+            <mat-spinner diameter="18" *ngIf="isLoading"></mat-spinner>
             Create account
           </button>
         </form>

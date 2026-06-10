@@ -33,8 +33,9 @@
             <mat-error>Password is required.</mat-error>
           </mat-form-field>
 
-          <button mat-flat-button color="primary" type="submit">
-            <mat-icon>login</mat-icon>
+          <button mat-flat-button color="primary" type="submit" [disabled]="isLoading">
+            <mat-icon *ngIf="!isLoading">login</mat-icon>
+            <mat-spinner diameter="18" *ngIf="isLoading"></mat-spinner>
             Sign in
           </button>
         </form>
