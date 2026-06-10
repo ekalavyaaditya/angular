@@ -6,7 +6,7 @@ import { Component, Input } from '@angular/core';
   template: `
     <mat-card class="stat-card" [class]="tone">
       <div class="icon-wrap">
-        <mat-icon>{{ icon }}</mat-icon>
+        <mat-icon aria-hidden="true">{{ icon }}</mat-icon>
       </div>
       <div>
         <p>{{ label }}</p>
