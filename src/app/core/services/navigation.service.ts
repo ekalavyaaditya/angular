@@ -162,6 +162,7 @@ export class NavigationService {
   }
 
   navItems(role: BackendRole): NavItem[] {
+    console.count('navItems called');
     return [
       ...this.baseItems,
       ...this.personasForRole(role).map((persona) => ({

@@ -1,4 +1,43 @@
 
-> banking-angular-frontend@1.0.0 start
-> ng serve --proxy-config proxy.conf.json --host 127.0.0.1 --port 4200
+> banking-angular-frontend@1.0.0 start /app
+> ng serve --proxy-config proxy.conf.json --port 4201
 
+❯ Building...
+✔ Building...
+Initial chunk files | Names                 | Raw size
+main.js             | main                  | 42.63 kB |
+styles.css          | styles                | 19.39 kB |
+chunk-K5AWQL7T.js   | -                     |  6.38 kB |
+chunk-YR27LGZ4.js   | -                     |  2.71 kB |
+chunk-WLRKX6XD.js   | -                     |  2.68 kB |
+chunk-KNR6LVUO.js   | -                     |  2.51 kB |
+chunk-D43IGQEW.js   | -                     |  1.81 kB |
+chunk-FVH46VZU.js   | -                     |  1.56 kB |
+chunk-CZJLB7T5.js   | -                     |  1.08 kB |
+polyfills.js        | polyfills             | 95 bytes |
+
+                    | Initial total         | 80.86 kB
+
+Lazy chunk files    | Names                 | Raw size
+chunk-XC5HGRHM.js   | -                     | 59.94 kB |
+chunk-MFNVRYG2.js   | role-workspace-module | 52.89 kB |
+chunk-L2LMSBQT.js   | auth-module           | 44.98 kB |
+chunk-74423WZB.js   | dashboard-module      | 25.82 kB |
+chunk-YS5VD4CG.js   | profile-module        | 15.70 kB |
+chunk-QZ3E7VTY.js   | settings-module       | 13.35 kB |
+chunk-CTG532TE.js   | errors-module         | 12.16 kB |
+chunk-I5JWCNFP.js   | -                     |  5.47 kB |
+
+Application bundle generation complete. [7.181 seconds] - 2026-06-10T18:57:09.725Z
+
+Watch mode enabled. Watching for file changes...
+NOTE: Raw file sizes do not reflect development server per-request transformations.
+  ➜  Local:   http://localhost:4201/
+6:59:13 PM [vite] http proxy error: /health
+AggregateError [ECONNREFUSED]:
+    at internalConnectMultiple (node:net:1134:18)
+    at afterConnectMultiple (node:net:1715:7)
+6:59:13 PM [vite] http proxy error: /api/fraud/cases?status=OPEN
+AggregateError [ECONNREFUSED]:
+    at internalConnectMultiple (node:net:1134:18)
+    at afterConnectMultiple (node:net:1715:7)
