@@ -51,9 +51,12 @@
             <mat-error>User type is required.</mat-error>
           </mat-form-field>
 
-          <button mat-flat-button color="primary" type="submit">
-            <mat-icon>person_add</mat-icon>
-            Create account
+          <button mat-flat-button color="primary" type="submit" [disabled]="isLoading">
+            <ng-container *ngIf="!isLoading">
+              <mat-icon>person_add</mat-icon>
+              Create account
+            </ng-container>
+            <mat-spinner *ngIf="isLoading" diameter="20"></mat-spinner>
           </button>
         </form>
       </mat-card-content>
