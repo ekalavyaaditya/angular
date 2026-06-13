@@ -1,17 +1,18 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatSidenav } from '@angular/material/sidenav';
-import { Component } from '@angular/core';
-import { map, shareReplay } from 'rxjs';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { map, shareReplay, switchMap, of } from 'rxjs';
 
 import { AuthService } from '@core/services/auth.service';
-import { NavigationService } from '@core/services/navigation.service';
+import { NavItem, NavigationService } from '@core/services/navigation.service';
 import { ThemeService } from '@core/services/theme.service';
 
 @Component({
   selector: 'app-shell',
   standalone: false,
   templateUrl: './shell.component.html',
-  styleUrls: ['./shell.component.scss']
+  styleUrls: ['./shell.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ShellComponent {
   readonly user$ = this.auth.user$;
@@ -21,12 +22,28 @@ export class ShellComponent {
     shareReplay({ bufferSize: 1, refCount: true })
   );
 
+  /**
+   * Performance Optimization: Memoize navigation items to avoid re-calculating
+   * on every change detection cycle.
+   */
+  readonly navItems$ = this.user$.pipe(
+    switchMap((user) => (user ? of(this.navigation.navItems(user.role)) : of([]))),
+    shareReplay({ bufferSize: 1, refCount: true })
+  );
+
   constructor(
     readonly auth: AuthService,
     readonly navigation: NavigationService,
     readonly theme: ThemeService,
     private readonly breakpointObserver: BreakpointObserver
   ) {}
+
+  /**
+   * trackBy function for nav items to optimize DOM updates.
+   */
+  trackByNavRoute(index: number, item: NavItem): string {
+    return item.route;
+  }
 
   closeDrawerOnMobile(drawer: MatSidenav): void {
     if (this.breakpointObserver.isMatched('(max-width: 900px)')) {
