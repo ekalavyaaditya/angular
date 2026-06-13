@@ -33,9 +33,16 @@
             <mat-error>Password is required.</mat-error>
           </mat-form-field>
 
-          <button mat-flat-button color="primary" type="submit">
-            <mat-icon>login</mat-icon>
-            Sign in
+          <button
+            mat-flat-button
+            color="primary"
+            type="submit"
+            [disabled]="loading"
+            [attr.aria-busy]="loading"
+            [attr.aria-label]="loading ? 'Signing in...' : 'Sign in'">
+            <mat-icon *ngIf="!loading">login</mat-icon>
+            <mat-spinner *ngIf="loading" [diameter]="18"></mat-spinner>
+            {{ loading ? 'Signing in...' : 'Sign in' }}
           </button>
         </form>
       </mat-card-content>
