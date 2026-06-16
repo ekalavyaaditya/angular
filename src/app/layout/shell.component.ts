@@ -1,7 +1,8 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatSidenav } from '@angular/material/sidenav';
-import { Component } from '@angular/core';
-import { map, shareReplay } from 'rxjs';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { distinctUntilChanged, map, Observable, shareReplay } from 'rxjs';
+import { NavItem } from '@core/services/navigation.service';
 
 import { AuthService } from '@core/services/auth.service';
 import { NavigationService } from '@core/services/navigation.service';
@@ -11,11 +12,21 @@ import { ThemeService } from '@core/services/theme.service';
   selector: 'app-shell',
   standalone: false,
   templateUrl: './shell.component.html',
-  styleUrls: ['./shell.component.scss']
+  styleUrls: ['./shell.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ShellComponent {
   readonly user$ = this.auth.user$;
   readonly theme$ = this.theme.theme$;
+
+  // Memoized navigation items to prevent redundant service calls in the template
+  readonly navItems$: Observable<NavItem[]> = this.user$.pipe(
+    map((user) => user?.role ?? 'CUSTOMER'),
+    distinctUntilChanged(),
+    map((role) => this.navigation.navItems(role)),
+    shareReplay({ bufferSize: 1, refCount: true })
+  );
+
   readonly isHandset$ = this.breakpointObserver.observe('(max-width: 900px)').pipe(
     map((result) => result.matches),
     shareReplay({ bufferSize: 1, refCount: true })
@@ -32,5 +43,9 @@ export class ShellComponent {
     if (this.breakpointObserver.isMatched('(max-width: 900px)')) {
       void drawer.close();
     }
+  }
+
+  trackByNavRoute(_index: number, item: NavItem): string {
+    return item.route;
   }
 }
