@@ -4,7 +4,10 @@
     <mat-form-field appearance="outline">
       <mat-label>Search</mat-label>
       <mat-icon matPrefix>search</mat-icon>
-      <input matInput type="search" (input)="applyFilter($any($event.target).value)">
+      <input matInput #searchInput type="search" [value]="filterValue" (input)="applyFilter($any($event.target).value)">
+      <button *ngIf="filterValue" mat-icon-button matSuffix type="button" (click)="clearFilter(searchInput)" matTooltip="Clear filter" aria-label="Clear filter">
+        <mat-icon>close</mat-icon>
+      </button>
     </mat-form-field>
   </div>
 
