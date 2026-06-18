@@ -1,0 +1,47 @@
+
+> banking-angular-frontend@1.0.0 start /app
+> ng serve --proxy-config proxy.conf.json
+
+❯ Building...
+✔ Building...
+Initial chunk files | Names                 | Raw size
+main.js             | main                  | 42.63 kB |
+styles.css          | styles                | 19.39 kB |
+chunk-PK7MOVUC.js   | -                     |  6.35 kB |
+chunk-YR27LGZ4.js   | -                     |  2.71 kB |
+chunk-WLRKX6XD.js   | -                     |  2.68 kB |
+chunk-KNR6LVUO.js   | -                     |  2.51 kB |
+chunk-D43IGQEW.js   | -                     |  1.81 kB |
+chunk-FVH46VZU.js   | -                     |  1.56 kB |
+chunk-CZJLB7T5.js   | -                     |  1.08 kB |
+polyfills.js        | polyfills             | 95 bytes |
+
+                    | Initial total         | 80.82 kB
+
+Lazy chunk files    | Names                 | Raw size
+chunk-XC5HGRHM.js   | -                     | 59.94 kB |
+chunk-4SSFPDSV.js   | role-workspace-module | 52.89 kB |
+chunk-HF7HJC54.js   | auth-module           | 47.62 kB |
+chunk-FQONWAEZ.js   | dashboard-module      | 25.82 kB |
+chunk-YS5VD4CG.js   | profile-module        | 15.70 kB |
+chunk-QZ3E7VTY.js   | settings-module       | 13.35 kB |
+chunk-CTG532TE.js   | errors-module         | 12.16 kB |
+chunk-I5JWCNFP.js   | -                     |  5.47 kB |
+
+Application bundle generation complete. [5.797 seconds] - 2026-06-18T20:24:22.095Z
+
+Watch mode enabled. Watching for file changes...
+NOTE: Raw file sizes do not reflect development server per-request transformations.
+  ➜  Local:   http://localhost:4200/
+8:25:35 PM [vite] http proxy error: /api/auth/login
+AggregateError [ECONNREFUSED]:
+    at internalConnectMultiple (node:net:1134:18)
+    at afterConnectMultiple (node:net:1715:7)
+8:25:36 PM [vite] http proxy error: /api/auth/roles
+AggregateError [ECONNREFUSED]:
+    at internalConnectMultiple (node:net:1134:18)
+    at afterConnectMultiple (node:net:1715:7)
+8:25:37 PM [vite] http proxy error: /api/auth/register
+AggregateError [ECONNREFUSED]:
+    at internalConnectMultiple (node:net:1134:18)
+    at afterConnectMultiple (node:net:1715:7)
