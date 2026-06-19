@@ -16,7 +16,7 @@
       <mat-nav-list>
         <a
           mat-list-item
-          *ngFor="let item of navigation.navItems(user.role)"
+          *ngFor="let item of (navItems$ | async)"
           [routerLink]="item.route"
           routerLinkActive="active-link"
           [routerLinkActiveOptions]="{ exact: item.route === '/dashboard' }"
