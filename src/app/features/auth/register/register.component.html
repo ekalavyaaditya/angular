@@ -51,9 +51,10 @@
             <mat-error>User type is required.</mat-error>
           </mat-form-field>
 
-          <button mat-flat-button color="primary" type="submit">
-            <mat-icon>person_add</mat-icon>
-            Create account
+          <button mat-flat-button color="primary" type="submit" [disabled]="loading" [attr.aria-busy]="loading" [attr.aria-label]="loading ? 'Creating account...' : 'Create account'">
+            <mat-icon *ngIf="!loading">person_add</mat-icon>
+            <mat-spinner *ngIf="loading" diameter="18"></mat-spinner>
+            <span>{{ loading ? 'Creating account...' : 'Create account' }}</span>
           </button>
         </form>
       </mat-card-content>
