@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -17,10 +17,12 @@ export class DataTableComponent<T = unknown> implements AfterViewInit, OnChanges
   @Input() columns: TableColumn<T>[] = [];
   @Input() data: T[] = [];
 
+  filterValue = '';
   readonly dataSource = new MatTableDataSource<T>([]);
 
   @ViewChild(MatPaginator) paginator?: MatPaginator;
   @ViewChild(MatSort) sort?: MatSort;
+  @ViewChild('searchInput') searchInput?: ElementRef<HTMLInputElement>;
 
   get displayedColumns(): string[] {
     return this.columns.map((column) => String(column.key));
@@ -38,7 +40,14 @@ export class DataTableComponent<T = unknown> implements AfterViewInit, OnChanges
   }
 
   applyFilter(value: string): void {
+    this.filterValue = value;
     this.dataSource.filter = value.trim().toLowerCase();
+  }
+
+  clearFilter(): void {
+    this.filterValue = '';
+    this.dataSource.filter = '';
+    this.searchInput?.nativeElement.focus();
   }
 
   cellValue(row: T, column: TableColumn<T>): string | number {
