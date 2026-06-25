@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { finalize } from 'rxjs';
 
 import { BACKEND_ROLES, BackendRole, roleDisplayName } from '@core/models/role.models';
 import { AuthService } from '@core/services/auth.service';
@@ -25,6 +26,7 @@ export class RegisterComponent implements OnInit {
   });
 
   hidePassword = true;
+  isLoading = false;
 
   constructor(
     private readonly fb: FormBuilder,
@@ -42,16 +44,20 @@ export class RegisterComponent implements OnInit {
   }
 
   submit(): void {
-    if (this.form.invalid) {
+    if (this.form.invalid || this.isLoading) {
       this.form.markAllAsTouched();
       return;
     }
 
-    this.auth.register(this.form.getRawValue()).subscribe({
-      next: () => {
-        this.notifications.success('Account created and signed in.');
-        void this.router.navigate(['/dashboard']);
-      }
-    });
+    this.isLoading = true;
+    this.auth
+      .register(this.form.getRawValue())
+      .pipe(finalize(() => (this.isLoading = false)))
+      .subscribe({
+        next: () => {
+          this.notifications.success('Account created and signed in.');
+          void this.router.navigate(['/dashboard']);
+        }
+      });
   }
 }

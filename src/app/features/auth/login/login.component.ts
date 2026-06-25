@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { finalize } from 'rxjs';
 
 import { AuthService } from '@core/services/auth.service';
 import { NotificationService } from '@core/services/notification.service';
@@ -18,6 +19,7 @@ export class LoginComponent {
   });
 
   hidePassword = true;
+  isLoading = false;
 
   constructor(
     private readonly fb: FormBuilder,
@@ -27,16 +29,20 @@ export class LoginComponent {
   ) {}
 
   submit(): void {
-    if (this.form.invalid) {
+    if (this.form.invalid || this.isLoading) {
       this.form.markAllAsTouched();
       return;
     }
 
-    this.auth.login(this.form.getRawValue()).subscribe({
-      next: () => {
-        this.notifications.success('Signed in successfully.');
-        void this.router.navigate(['/dashboard']);
-      }
-    });
+    this.isLoading = true;
+    this.auth
+      .login(this.form.getRawValue())
+      .pipe(finalize(() => (this.isLoading = false)))
+      .subscribe({
+        next: () => {
+          this.notifications.success('Signed in successfully.');
+          void this.router.navigate(['/dashboard']);
+        }
+      });
   }
 }
