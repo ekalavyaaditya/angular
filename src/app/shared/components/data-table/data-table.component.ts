@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -9,7 +9,9 @@ import { TableColumn } from '@core/models/dashboard.models';
   selector: 'app-data-table',
   standalone: false,
   templateUrl: './data-table.component.html',
-  styleUrls: ['./data-table.component.scss']
+  styleUrls: ['./data-table.component.scss'],
+  // Performance: Use OnPush change detection to minimize change detection frequency.
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DataTableComponent<T = unknown> implements AfterViewInit, OnChanges {
   @Input({ required: true }) title = '';
@@ -18,12 +20,14 @@ export class DataTableComponent<T = unknown> implements AfterViewInit, OnChanges
   @Input() data: T[] = [];
 
   readonly dataSource = new MatTableDataSource<T>([]);
+  // Performance: Cache the displayed columns list to avoid mapping in the template getter.
+  private _displayedColumns: string[] = [];
 
   @ViewChild(MatPaginator) paginator?: MatPaginator;
   @ViewChild(MatSort) sort?: MatSort;
 
   get displayedColumns(): string[] {
-    return this.columns.map((column) => String(column.key));
+    return this._displayedColumns;
   }
 
   ngAfterViewInit(): void {
@@ -34,6 +38,10 @@ export class DataTableComponent<T = unknown> implements AfterViewInit, OnChanges
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['data']) {
       this.dataSource.data = this.data;
+    }
+    if (changes['columns']) {
+      // Performance: Map columns once and cache the result.
+      this._displayedColumns = this.columns.map((column) => String(column.key));
     }
   }
 
