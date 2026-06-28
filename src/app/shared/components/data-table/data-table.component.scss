@@ -9,8 +9,16 @@ h2 {
   font-size: 18px;
 }
 
-.table-toolbar mat-form-field {
-  width: min(320px, 100%);
+.table-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+
+  mat-form-field {
+    width: min(320px, 100%);
+  }
 }
 
 .table-wrap {
@@ -22,6 +30,15 @@ h2 {
 table {
   width: 100%;
   min-width: 680px;
+}
+
+.no-results td {
+  padding: 24px;
+  text-align: center;
+  font-style: italic;
+  color: var(--app-muted);
+  white-space: normal;
+  word-break: break-word;
 }
 
 .empty-state {
