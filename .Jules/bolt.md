@@ -1,0 +1,3 @@
+## 2026-06-29 - [Optimizing Shell Navigation and DataTable Change Detection]
+**Learning:** Calling service methods directly in Angular templates (e.g., `navigation.navItems(role)`) can lead to excessive redundant executions—up to 27+ times for a single dashboard load—because Angular re-evaluates the expression on every change detection cycle.
+**Action:** Use `ChangeDetectionStrategy.OnPush` combined with memoized observables (using `distinctUntilChanged`) and the `async` pipe to ensure expensive or frequently called logic only executes when its inputs actually change. For simple array transformations in templates (like `displayedColumns`), cache the result in `ngOnChanges` instead of using a getter that returns a new array instance.
