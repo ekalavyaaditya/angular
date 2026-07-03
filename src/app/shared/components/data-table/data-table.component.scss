@@ -24,6 +24,15 @@ table {
   min-width: 680px;
 }
 
+.no-results td {
+  padding: 24px;
+  text-align: center;
+  font-style: italic;
+  color: var(--app-muted);
+  white-space: normal;
+  word-break: break-word;
+}
+
 .empty-state {
   display: grid;
   place-items: center;
