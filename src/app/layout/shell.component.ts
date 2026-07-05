@@ -1,17 +1,18 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatSidenav } from '@angular/material/sidenav';
-import { Component } from '@angular/core';
-import { map, shareReplay } from 'rxjs';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { distinctUntilChanged, map, shareReplay } from 'rxjs';
 
 import { AuthService } from '@core/services/auth.service';
-import { NavigationService } from '@core/services/navigation.service';
+import { NavItem, NavigationService } from '@core/services/navigation.service';
 import { ThemeService } from '@core/services/theme.service';
 
 @Component({
   selector: 'app-shell',
   standalone: false,
   templateUrl: './shell.component.html',
-  styleUrls: ['./shell.component.scss']
+  styleUrls: ['./shell.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ShellComponent {
   readonly user$ = this.auth.user$;
@@ -19,6 +20,16 @@ export class ShellComponent {
   readonly isHandset$ = this.breakpointObserver.observe('(max-width: 900px)').pipe(
     map((result) => result.matches),
     shareReplay({ bufferSize: 1, refCount: true })
+  );
+
+  /**
+   * Memoized navigation items that only update when the user's role changes.
+   * Reduces redundant calls to NavigationService.navItems from template cycles.
+   */
+  readonly navItems$ = this.user$.pipe(
+    map((user) => user?.role),
+    distinctUntilChanged(),
+    map((role) => (role ? this.navigation.navItems(role) : []))
   );
 
   constructor(
