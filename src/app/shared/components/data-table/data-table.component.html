@@ -1,14 +1,29 @@
 <mat-card class="table-card">
   <div class="table-toolbar">
     <h2>{{ title }}</h2>
-    <mat-form-field appearance="outline">
-      <mat-label>Search</mat-label>
+    <mat-form-field appearance="outline" subscriptSizing="dynamic">
       <mat-icon matPrefix>search</mat-icon>
-      <input matInput type="search" (input)="applyFilter($any($event.target).value)">
+      <input
+        matInput
+        #searchInput
+        type="text"
+        placeholder="Search..."
+        aria-label="Search records"
+        [value]="filterValue"
+        (input)="applyFilter($any($event.target).value)">
+      <button
+        *ngIf="filterValue"
+        mat-icon-button
+        matSuffix
+        (click)="clearFilter()"
+        aria-label="Clear filter"
+        matTooltip="Clear filter">
+        <mat-icon>close</mat-icon>
+      </button>
     </mat-form-field>
   </div>
 
-  <div class="table-wrap" *ngIf="dataSource.data.length; else emptyState">
+  <div class="table-wrap" *ngIf="dataSource.data.length || filterValue; else emptyState">
     <table mat-table matSort [dataSource]="dataSource">
       <ng-container *ngFor="let column of columns" [matColumnDef]="column.key">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ column.label }}</th>
@@ -17,6 +32,12 @@
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+      <tr class="mat-mdc-no-data-row no-results" *matNoDataRow>
+        <td [attr.colspan]="columns.length">
+          No records matching the filter "{{ filterValue }}"
+        </td>
+      </tr>
     </table>
   </div>
 
