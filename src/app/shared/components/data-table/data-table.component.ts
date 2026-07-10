@@ -18,12 +18,13 @@ export class DataTableComponent<T = unknown> implements AfterViewInit, OnChanges
   @Input() data: T[] = [];
 
   readonly dataSource = new MatTableDataSource<T>([]);
+  filterValue = '';
 
   @ViewChild(MatPaginator) paginator?: MatPaginator;
   @ViewChild(MatSort) sort?: MatSort;
 
   get displayedColumns(): string[] {
-    return this.columns.map((column) => String(column.key));
+    return this.columns.map((column) => column.key);
   }
 
   ngAfterViewInit(): void {
@@ -38,7 +39,14 @@ export class DataTableComponent<T = unknown> implements AfterViewInit, OnChanges
   }
 
   applyFilter(value: string): void {
+    this.filterValue = value;
     this.dataSource.filter = value.trim().toLowerCase();
+  }
+
+  clearSearch(input: HTMLInputElement): void {
+    this.filterValue = '';
+    this.dataSource.filter = '';
+    input.focus();
   }
 
   cellValue(row: T, column: TableColumn<T>): string | number {

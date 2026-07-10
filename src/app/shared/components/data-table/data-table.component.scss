@@ -47,3 +47,10 @@ table {
     flex-direction: column;
   }
 }
+
+.no-results td {
+  padding: 24px;
+  text-align: center;
+  font-style: italic;
+  color: var(--app-muted);
+}
