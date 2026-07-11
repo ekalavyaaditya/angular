@@ -18,12 +18,17 @@ export class DataTableComponent<T = unknown> implements AfterViewInit, OnChanges
   @Input() data: T[] = [];
 
   readonly dataSource = new MatTableDataSource<T>([]);
+  private _displayedColumns: string[] = [];
 
   @ViewChild(MatPaginator) paginator?: MatPaginator;
   @ViewChild(MatSort) sort?: MatSort;
 
+  /**
+   * Memoized array of column keys for mat-table.
+   * Reduces O(N) mapping operations and array allocations to O(1) during change detection.
+   */
   get displayedColumns(): string[] {
-    return this.columns.map((column) => String(column.key));
+    return this._displayedColumns;
   }
 
   ngAfterViewInit(): void {
@@ -34,6 +39,9 @@ export class DataTableComponent<T = unknown> implements AfterViewInit, OnChanges
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['data']) {
       this.dataSource.data = this.data;
+    }
+    if (changes['columns']) {
+      this._displayedColumns = this.columns.map((column) => String(column.key));
     }
   }
 
