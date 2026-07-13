@@ -1,6 +1,6 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatSidenav } from '@angular/material/sidenav';
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { map, shareReplay } from 'rxjs';
 
 import { AuthService } from '@core/services/auth.service';
@@ -11,15 +11,30 @@ import { ThemeService } from '@core/services/theme.service';
   selector: 'app-shell',
   standalone: false,
   templateUrl: './shell.component.html',
-  styleUrls: ['./shell.component.scss']
+  styleUrls: ['./shell.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ShellComponent {
   readonly user$ = this.auth.user$;
+
+  /**
+   * Memoized navigation items based on the current user's role.
+   * Reduces NavigationService.navItems() calls from O(N) cycles to O(1) per role change.
+   */
+  readonly navItems$ = this.user$.pipe(
+    map((user) => (user ? this.navigation.navItems(user.role) : [])),
+    shareReplay({ bufferSize: 1, refCount: true })
+  );
+
   readonly theme$ = this.theme.theme$;
   readonly isHandset$ = this.breakpointObserver.observe('(max-width: 900px)').pipe(
     map((result) => result.matches),
     shareReplay({ bufferSize: 1, refCount: true })
   );
+
+  trackByRoute(_: number, item: { route: string }): string {
+    return item.route;
+  }
 
   constructor(
     readonly auth: AuthService,
