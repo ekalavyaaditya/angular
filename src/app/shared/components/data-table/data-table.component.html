@@ -1,10 +1,25 @@
 <mat-card class="table-card">
   <div class="table-toolbar">
     <h2>{{ title }}</h2>
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance="outline" subscriptSizing="dynamic">
       <mat-label>Search</mat-label>
       <mat-icon matPrefix>search</mat-icon>
-      <input matInput type="search" (input)="applyFilter($any($event.target).value)">
+      <input
+        matInput
+        #searchInput
+        type="text"
+        placeholder="Search records"
+        [value]="filterValue"
+        (input)="applyFilter($any($event.target).value)">
+      <button
+        *ngIf="filterValue"
+        mat-icon-button
+        matSuffix
+        type="button"
+        (click)="clearFilter(); searchInput.focus()"
+        aria-label="Clear search">
+        <mat-icon>close</mat-icon>
+      </button>
     </mat-form-field>
   </div>
 
@@ -17,6 +32,12 @@
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+      <tr class="mat-row no-results" *matNoDataRow>
+        <td class="mat-cell" [attr.colspan]="displayedColumns.length">
+          No records matching the filter "{{ filterValue }}"
+        </td>
+      </tr>
     </table>
   </div>
 
