@@ -1,0 +1,3 @@
+## 2026-07-16 - Template Function Re-computation in Angular
+**Learning:** Calling a component or service method directly from an Angular template (e.g., in `*ngFor` or `{{ method() }}`) causes the method to be re-executed on every change detection cycle, even if the inputs haven't changed. This is especially impactful in the application shell or main layout components.
+**Action:** Move data-transforming logic from template methods to memoized observables using the `async` pipe. Use `distinctUntilChanged` to ensure the observable only emits when the relevant source data (like user role) actually changes.
