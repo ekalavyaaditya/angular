@@ -1,0 +1,3 @@
+## 2026-07-18 - Calling Service Methods Directly from Angular Templates in Loop Directives
+**Learning:** Calling service methods or functions directly inside structural loop directives like `*ngFor` in templates triggers O(N) calculations and new array allocations during every change detection cycle. This degrades layout and interaction responsiveness, creating a noticeable rendering bottleneck during frequent events (e.g., drawer toggling or routing).
+**Action:** Always memoize template-bound lists using RxJS observables combined with operators like `distinctUntilChanged` to emit new collections only when relevant inputs change. Track elements using `trackBy` to optimize DOM updates.
