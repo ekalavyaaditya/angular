@@ -1,0 +1,3 @@
+## 2026-07-19 - Avoid Direct Service Method Calls in Angular Iterators
+**Learning:** Calling service methods or methods that return new array instances directly inside Angular templates with dynamic iterations like `*ngFor` causes redundant O(N) calculations. The service method gets executed on every single change detection cycle (hover, click, focus, input, etc.), which degrades frontend performance.
+**Action:** Create memoized observables in the component class mapping from the source data stream using appropriate RxJS transformation and caching/filtering operators (e.g. `distinctUntilChanged` and `shareReplay`). Bind the observable to the template via the async pipe and supply a custom `trackBy` function to optimize DOM tree updates.
