@@ -1,10 +1,10 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Component } from '@angular/core';
-import { map, shareReplay } from 'rxjs';
+import { distinctUntilChanged, map, shareReplay } from 'rxjs';
 
 import { AuthService } from '@core/services/auth.service';
-import { NavigationService } from '@core/services/navigation.service';
+import { NavigationService, NavItem } from '@core/services/navigation.service';
 import { ThemeService } from '@core/services/theme.service';
 
 @Component({
@@ -21,12 +21,27 @@ export class ShellComponent {
     shareReplay({ bufferSize: 1, refCount: true })
   );
 
+  /**
+   * Memoized navigation items mapped from the current user's role.
+   * Emits only when the role changes to prevent redundant navigation list emissions.
+   * Reduces navItems() calls from O(N) cycles to O(1) per role change.
+   */
+  readonly navItems$ = this.user$.pipe(
+    distinctUntilChanged((prev, curr) => prev?.role === curr?.role),
+    map((user) => (user ? this.navigation.navItems(user.role) : [])),
+    shareReplay({ bufferSize: 1, refCount: true })
+  );
+
   constructor(
     readonly auth: AuthService,
     readonly navigation: NavigationService,
     readonly theme: ThemeService,
     private readonly breakpointObserver: BreakpointObserver
   ) {}
+
+  trackByRoute(index: number, item: NavItem): string {
+    return item.route;
+  }
 
   closeDrawerOnMobile(drawer: MatSidenav): void {
     if (this.breakpointObserver.isMatched('(max-width: 900px)')) {
