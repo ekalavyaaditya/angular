@@ -37,8 +37,17 @@ export class DataTableComponent<T = unknown> implements AfterViewInit, OnChanges
     }
   }
 
+  filterValue = '';
+
   applyFilter(value: string): void {
+    this.filterValue = value;
     this.dataSource.filter = value.trim().toLowerCase();
+  }
+
+  clearFilter(inputElement: HTMLInputElement): void {
+    this.filterValue = '';
+    this.dataSource.filter = '';
+    inputElement.focus();
   }
 
   cellValue(row: T, column: TableColumn<T>): string | number {
