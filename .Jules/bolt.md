@@ -1,0 +1,3 @@
+## 2026-07-21 - Avoiding Calling Service Methods Inside *ngFor Directives
+**Learning:** Calling service methods like `navigation.navItems(user.role)` directly within `*ngFor` in Angular templates leads to redundant O(N) re-computations during every change detection cycle. This can be highly inefficient as change detection runs frequently upon user interactions (e.g. mouse moves, clicks).
+**Action:** Always derive arrays for iterating directives like `*ngFor` using memoized observables (e.g. via `distinctUntilChanged` on the dependency) and/or implement a `trackBy` function to optimize DOM re-rendering.
