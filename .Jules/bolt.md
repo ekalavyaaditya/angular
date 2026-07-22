@@ -1,0 +1,3 @@
+## 2026-07-22 - Memoize Navigation Items in Application Shell
+**Learning:** Calling service methods like `navigation.navItems(user.role)` directly inside an Angular template's `*ngFor` directive creates an O(N) performance anti-pattern. Because Angular runs change detection frequently, this array gets fully re-computed and re-allocated during every single tick, resulting in high CPU usage and unnecessary memory pressure.
+**Action:** Use an RxJS-backed observable combined with `distinctUntilChanged` and `shareReplay` to cache and memoize the computed collection, and bind to it in the template using the `async` pipe and `trackBy`.
