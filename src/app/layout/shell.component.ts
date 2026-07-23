@@ -1,10 +1,10 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Component } from '@angular/core';
-import { map, shareReplay } from 'rxjs';
+import { map, shareReplay, distinctUntilChanged } from 'rxjs';
 
 import { AuthService } from '@core/services/auth.service';
-import { NavigationService } from '@core/services/navigation.service';
+import { NavigationService, NavItem } from '@core/services/navigation.service';
 import { ThemeService } from '@core/services/theme.service';
 
 @Component({
@@ -21,12 +21,29 @@ export class ShellComponent {
     shareReplay({ bufferSize: 1, refCount: true })
   );
 
+  /**
+   * Optimized navigation items observable.
+   * Maps user role changes into distinct nav list emissions.
+   * Reduces navItems() calls from O(N) cycles to O(1) per role change.
+   */
+  readonly navItems$ = this.user$.pipe(
+    distinctUntilChanged((prev, curr) => prev?.role === curr?.role),
+    map((user) => (user ? this.navigation.navItems(user.role) : []))
+  );
+
   constructor(
     readonly auth: AuthService,
     readonly navigation: NavigationService,
     readonly theme: ThemeService,
     private readonly breakpointObserver: BreakpointObserver
   ) {}
+
+  /**
+   * Track by function for navigation items to optimize DOM updates.
+   */
+  trackByRoute(index: number, item: NavItem): string {
+    return item.route;
+  }
 
   closeDrawerOnMobile(drawer: MatSidenav): void {
     if (this.breakpointObserver.isMatched('(max-width: 900px)')) {
