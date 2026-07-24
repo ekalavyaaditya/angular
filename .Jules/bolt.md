@@ -1,0 +1,3 @@
+## 2026-07-24 - Navigation menu re-computation on change detection
+**Learning:** Calling `navigation.navItems(user.role)` directly in an Angular template within an `*ngFor` loop causes the method to be re-evaluated on every single change detection cycle (e.g., when toggling navigation, clicking buttons, changing themes), which is an O(N) operation per cycle.
+**Action:** Move the navigation items generation to a memoized or reactive property like a `navItems$` observable that emits only when the user's role actually changes (using `distinctUntilChanged`). Use `trackBy` inside the template to optimize DOM updates.
