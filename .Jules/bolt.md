@@ -1,0 +1,3 @@
+## 2026-07-26 - Navigation items computed on every change detection cycle
+**Learning:** In ShellComponent, calling a service method (such as `navigation.navItems(user.role)`) directly in the template (*ngFor) causes it to execute on every single Angular change detection cycle. This results in continuous O(N) re-evaluation of items, which can degrade rendering performance.
+**Action:** Instead of calling the method in the template, compute the navigation items once or map them to an observable (e.g., using a memoized or pipe-mapped structure) inside the component TS class and bind that observable in the template via the async pipe.
